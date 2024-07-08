@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カートリスト</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .back-link {
+            text-align: right;
+            margin-top: 20px;
+        }
+         .error-message {
+            color: red;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>カートリスト</h1>
+        <form action="{% url 'cartlist_search' %}" method="get">
+        <label for="search-input">患者IDまたは姓、名で検索:</label>
+        <input type="text" id="search-input" name="search" placeholder="患者IDまたは姓、名を入力してください" value="{{ search_query }}">
+        <button type="submit">検索</button>
+    </form>
+    {% if error_message %}
+        <p class="error-message">{{ error_message }}</p>
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>患者ID</th>
+                <th>患者名</th>
+                <th>薬剤名</th>
+                <th>投薬量</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+            <tr>
+                <td>{{ item.patid }}</td>
+                <td>{{ item.patlneme }} {{ item.patfname }}</td>
+                <td>{{ item.medicinename }}</td>
+                <td>{{ item.dosage }}</td>
+                <td>
+                    <p><a href="{% url 'remove_from_cart' item.cart_id %}">削除</a></p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="back-link">
+        <form action="{% url 'prescribe_medicine' %}" method="get">
+            <button type="submit">新しい処方を追加</button>
+        </form>
+        <form action="{% url 'confirm_procedure' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">処置確定</button>
+        </form>
+        <a href="/doctor_home/" class="logout-link">戻る</a>
+    </div>
+</div>
+</body>
+</html>

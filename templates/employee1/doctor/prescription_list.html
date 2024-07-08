@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>処方リスト</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .back-link {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<h2>処方リスト</h2>
+    <table>
+        <tr>
+            <th>患者名</th>
+            <th>薬剤名</th>
+            <th>投薬量</th>
+            <th>担当医師</th>
+        </tr>
+        {% for treatment in treatment_list %}
+            <tr>
+                <td>{{ treatment.patid.patlneme }} {{ treatment.patid.patfname }}</td>
+                <td>{{ treatment.medicineid.medicinename }}</td>
+                <td>{{ treatment.dosage }}</td>
+                <td>{{ treatment.empid.empfname }} {{ treatment.empid.emplname }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+        <div class="back-link">
+            <a href="{% url 'cartlist_view' %}">新しい処方を追加</a>
+            <a href="/doctor_home/" class="logout-link">戻る</a>
+        </div>
+
+</div>
+</body>
+</html>

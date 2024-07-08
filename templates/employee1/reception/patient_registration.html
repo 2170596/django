@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>患者登録</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center; /* ボタンを中央に配置 */
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>患者登録</h2>
+    <!-- エラーメッセージの表示 -->
+     {% if errors %}
+        {% for field, error in errors.items %}
+            <p class="error-message">{{ error }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <!-- 成功メッセージの表示 -->
+    {% if success_message %}
+        <p>{{ success_message }}</p>
+    {% endif %}
+    <form method="post" action="/patient_registration/">
+        {% csrf_token %}
+        <label for="patid">患者ID:</label>
+        <input type="text" id="patid" name="patid" required><br>
+
+        <label for="patfname">患者姓:</label>
+        <input type="text" id="patfname" name="patfname" required><br>
+
+        <label for="patlneme">患者名:</label>
+        <input type="text" id="patlneme" name="patlneme" required><br>
+
+        <label for="hokenmei">保険証記号番号:</label>
+        <input type="text" id="hokenmei" name="hokenmei" required><br>
+
+        <label for="hokenexp">有効期限:</label>
+        <input type="date" id="hokenexp" name="hokenexp" required><br>
+        
+        <button type="submit">登録確認</button>
+        <div class="back-link">
+        <a href="/patient_home/" class="logout-link">戻る</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

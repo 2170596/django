@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>処置履歴確認</title>
+    <style>
+        /* スタイルは適宜変更してください */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f9f9f9;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            padding: 15px 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+            width: fit-content;
+            margin: 20px auto;
+            text-align: center;
+        }
+        a:hover {
+            background-color: #333;
+            color: #fff;
+            border-color: #333;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>処置履歴確認</h1>
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+    <form action="{% url 'treatment_history' %}" method="post">
+        {% csrf_token %}
+        <label for="patient_id">患者ID:</label>
+        <input type="text" id="patient_id" name="patient_id">
+        <input type="submit" value="検索">
+    </form>
+    {% if patient %}
+        <h2>{{ patient.patlneme }} {{ patient.patfname }}の処置履歴</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>薬剤名</th>
+                    <th>投薬量</th>
+                    <th>日付</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for treatment in treatments %}
+                    <tr>
+                        <td>{{ treatment.medicineid.medicinename }}</td>
+                        <td>{{ treatment.dosage }}({{ treatment.medicineid.unit }})</td>
+                        <td>{{ treatment.date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="error-message">該当する処置履歴がありません。</p>
+    {% endif %}
+    <a href="{% url 'doctor_home' %}">メニューに戻る</a>
+</div>
+</body>
+</html>

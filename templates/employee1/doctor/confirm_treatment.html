@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>処置確定</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .back-link {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>処置確定</h1>
+    <p>以下の内容で処置を確定しますか？</p>
+    <table>
+        <thead>
+            <tr>
+                <th>患者ID</th>
+                <th>患者名</th>
+                <th>薬剤名</th>
+                <th>投薬量</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+                <tr>
+                    <td>{{ item.patid }}</td>
+                    <td>{{ item.patlneme }} {{ item.patfname }}</td>
+                    <td>{{ item.medicinename }}</td>
+                    <td>{{ item.dosage }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form action="{% url 'confirm_treatment' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" name="confirm" value="処置を確定する">
+        <input type="submit" name="delete" value="リストを空にする">
+    </form>
+    <form action="{% url 'prescribe_medicine' %}" method="get">
+        <input type="submit" value="薬剤選択画面へ戻る">
+    </form>
+</div>
+</body>
+</html>

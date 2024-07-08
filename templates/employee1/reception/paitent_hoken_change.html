@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>患者保険証情報変更</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+.container h1 {
+    margin-top: 0;
+    text-align: center;
+    color: #333;
+}
+.container form {
+    display: flex;
+    flex-direction: column;
+}
+.container label {
+    margin-bottom: 5px;
+    color: #555;
+}
+.container input[type="text"],
+.container input[type="date"],
+.container button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.container button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.container button:hover {
+    background-color: #45a049;
+}
+.container .back-link {
+    text-align: center;
+    margin-top: 20px;
+}
+.container .back-link a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+.container .back-link a:hover {
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>患者保険証情報変更</h1>
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <p style="color: {% if message.tags == 'error' %}red{% elif message.tags == 'success' %}green{% else %}black{% endif %};">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="hokenmei">保険証記号番号:</label>
+        <input type="text" id="hokenmei" name="hokenmei" placeholder="保険証記号番号を入力してください" value="{{ patient.hokenmei }}">
+        <label for="hokenexp">有効期限:</label>
+        <input type="date" id="hokenexp" name="hokenexp" value="{{ patient.hokenexp|date:'Y-m-d' }}">
+        <button type="submit">変更</button>
+    </form>
+    <div class="back-link">
+        <a href="{% url 'patient_list' %}">戻る</a>
+    </div>
+</div>
+</body>
+</html>

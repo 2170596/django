@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仕入れ先リスト</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .back-link {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>仕入れ先リスト</h1>
+    <form action="{% url 'search_supplier_by_capital' %}" method="post">
+        {% csrf_token %}
+        <label for="capital">資本金検索:</label>
+        <input type="text" id="capital" name="capital" placeholder="資本金を入力してください" required>
+        <button type="submit">検索</button>
+    </form>
+    {% if messages %}
+        <div class="error-message">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>名</th>
+                <th>住所</th>
+                <th>電話番号</th>
+                <th>資本金</th>
+                <th>納期</th>
+                <th>変更</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in shiiregyosha_data %}
+                <tr>
+                    <td>{{ supplier.shiireid }}</td>
+                    <td>{{ supplier.shiiremei }}</td>
+                    <td>{{ supplier.shiireaddress }}</td>
+                    <td>{{ supplier.shiiretel }}</td>
+                    <td>{{ supplier.shihonkin }}</td>
+                    <td>{{ supplier.nouki }}</td>
+                    <td><a href="{% url 'change_supplier_phone' supplier_id=supplier.shiireid|add:0 %}">変更</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="back-link">
+        <a href="/admin_home/" class="logout-link">戻る</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Expiration Date</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .back-link {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>期限切れ保険証の患者一覧</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>患者ID</th>
+                <th>名前</th>
+                <th>保険証名</th>
+                <th>保険証有効期限</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in expired_patients %}
+            <tr>
+                <td>{{ patient.patid }}</td>
+                <td>{{ patient.patlneme }} {{ patient.patfname }}</td>
+                <td>{{ patient.hokenmei }}</td>
+                <td>{{ patient.hokenexp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="back-link">
+        <a href="/patient_home/" class="logout-link">戻る</a>
+    </div>
+</div>
+</body>
+</html>

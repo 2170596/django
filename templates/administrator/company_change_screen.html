@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仕入れ先情報変更</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        .container h1 {
+            margin-top: 0;
+            text-align: center;
+            color: #333;
+        }
+        .container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .container label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .container input[type="text"],
+        .container input[type="tel"],
+        .container input[type="date"],
+        .container input[type="submit"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .container input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .container input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>仕入れ先情報変更</h1>
+        <form action="/supplier_update_confirmation" method="post">
+            <label for="supplier_id">仕入れ先ID:</label>
+            <input type="text" id="supplier_id" name="supplier_id" value="{{ supplier_info['supplier_id'] }}" required readonly>
+            <label for="supplier_name">仕入れ先名:</label>
+            <input type="text" id="supplier_name" name="supplier_name" value="{{ supplier_info['supplier_name'] }}" required readonly>
+            <label for="supplier_address">仕入れ先住所:</label>
+            <input type="text" id="supplier_address" name="supplier_address" value="{{ supplier_info['supplier_address'] }}" required readonly>
+            <label for="supplier_phone">仕入れ先電話番号:</label>
+            <input type="tel" id="supplier_phone" name="supplier_phone" value="{{ supplier_info['supplier_phone'] }}" required>
+            <input type="submit" value="変更">
+        </form>
+    </div>
+</body>
+</html>

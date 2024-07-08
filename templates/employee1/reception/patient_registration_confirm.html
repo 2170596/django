@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>患者登録確認</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center; /* ボタンを中央に配置 */
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+</style>
+<body>
+<div class="container">
+    <h1>患者登録確認</h1>
+    <form method="post" action="{% url 'patient_registration_confirm' %}">
+        {% csrf_token %}
+        <p>患者ID: {{ patid }}</p>
+        <input type="hidden" name="patid" value="{{ patid }}">
+
+        <p>患者姓: {{ patfname }}</p>
+        <input type="hidden" name="patfname" value="{{ patfname }}">
+
+        <p>患者名: {{ patlneme }}</p>
+        <input type="hidden" name="patlneme" value="{{ patlneme }}">
+
+        <p>保険証記号番号: {{ hokenmei }}</p>
+        <input type="hidden" name="hokenmei" value="{{ hokenmei }}">
+
+        <p>有効期限: {{ hokenexp }}</p>
+        <input type="hidden" name="hokenexp" value="{{ hokenexp }}">
+
+        <button type="submit">登録</button>
+        <div class="back-link">
+        <a href="/patient_home/" class="logout-link">戻る</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
